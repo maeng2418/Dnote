@@ -1,0 +1,16 @@
+from django.shortcuts import render
+
+# Create your views here.
+from rest_framework import viewsets
+from .serializers import NoteSerializer
+from .models import Notes
+
+
+class NoteViewSet(viewsets.ModelViewSet):
+    serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        return Notes.objects.all().order_by("-created_at")
+
+    def perform_create(self, serializer):
+        serializer.save()
